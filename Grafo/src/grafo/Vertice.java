@@ -11,15 +11,15 @@ import java.util.ArrayList;
  *
  * @author 20191bsi0069
  */
-public class Vertice<T>{
+public class Vertice<T> {
     final T valor;
-    
-    public Vertice (T valor){
+
+    public Vertice(T valor) {
         this.valor = valor;
     }
-    
-    public T getValor(){
+
+    public T getValor() {
         return this.valor;
     }
-    
+
 }
