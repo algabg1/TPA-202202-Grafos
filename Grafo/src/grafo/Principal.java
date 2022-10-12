@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class Principal {
 
-    private Grafo<String> grafo = new Grafo<String>(0);
+    private Grafo<String> grafo;
 
     public List<String> LeLinhas(int Tam) {
         try {
@@ -52,7 +52,9 @@ public class Principal {
     private void montaGrafo(List<String> linhas) {
         // this.grafo.Limpa();
         int qtCidades = parseInt(linhas.get(0));
-        for (int i = 1; i < qtCidades; i++) {
+        this.grafo = new Grafo<String>(qtCidades);
+
+        for (int i = 1; i <= qtCidades; i++) {
             /*
              * Primeiro insiro os vértices pegando a linha que está, sendo a primeira coluna
              * o index e a segunda seu "Nome"
@@ -71,7 +73,7 @@ public class Principal {
              */
             String[] colunas = linhas.get(i).split(";");
             // Fazendo variável para indicar a origem
-            Integer origem = i - qtCidades;
+            Integer origem = i - qtCidades - 1;
             for (int j = 0; j < colunas.length; j++) {
                 /*
                  * Adicionando cada aresta conforme dito acima

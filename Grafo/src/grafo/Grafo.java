@@ -34,8 +34,10 @@ public class Grafo<T> {
     }
 
     private int obterIndiceVertice(T valor) {
-        for (var i = 0; i < this.vertices.size();) {
-            if (this.vertices.get(i).CompareTo(valor)) {
+        Vertice<T> v;
+        for (var i = 0; i < this.vertices.size(); i++) {
+            v = this.vertices.get(i);
+            if (v.getValor().equals(valor)) {
                 return i;
             }
         }
@@ -47,12 +49,13 @@ public class Grafo<T> {
         // pegar as vértices da lista principal para referenciar e criar a aresa aqui
         // As linhas significam a origem, ou seja, eu sei qual a linha quando vem de
         // fora
-
-        System.out.println(Origem);
+        if (Peso == 0.0)
+            return false;
+        System.out.println(this.vertices);
         T origem = this.vertices.get(Origem).getValor();
-        T destino = this.vertices.get(Origem).getValor();
+        T destino = this.vertices.get(Destino).getValor();
         this.adicionarAresta(origem, destino, Peso);
-
+        System.out.println("saiu");
         return true;
     }
 
@@ -67,6 +70,7 @@ public class Grafo<T> {
         }
         // Busco o indice do vértice com 0 valor de origem
         int indiceDestino = obterIndiceVertice(destino);
+
         // Se ainda não existe vertice com o valor da origem, vou criar o vértice
         if (indiceDestino == -1) {
             verticeDestino = adicionarVertice(destino);

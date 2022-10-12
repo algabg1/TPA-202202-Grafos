@@ -20,11 +20,4 @@ public class Vertice<T> {
         return this.valor;
     }
 
-    public Boolean CompareTo(T Comparado) {
-        if (this.valor == Comparado) {
-            return true;
-        }
-        return false;
-    }
-
 }
