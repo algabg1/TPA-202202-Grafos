@@ -61,9 +61,10 @@ public class GeradorArquivosGrafo {
         int i;
         String nome;
         FileWriter arq;
+        PrintWriter gravarArq;
         try {
             arq = new FileWriter("entrada.txt");
-            PrintWriter gravarArq = new PrintWriter(arq);
+            gravarArq = new PrintWriter(arq);
             // Gerando linha com quantidade de cidades
             gravarArq.println(n);
             // Gerando linhas com códigos e nomes de cidades
@@ -120,6 +121,7 @@ public class GeradorArquivosGrafo {
         } catch (IOException ex) {
             Logger.getLogger(GeradorArquivosGrafo.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     // Esse método sempre será chamado com coluna > linha pois a ideia é só gerar os

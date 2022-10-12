@@ -34,18 +34,24 @@ public class Grafo<T> {
     }
 
     private int obterIndiceVertice(T valor) {
-        Vertice<T> v;
-        for (var i = 0; i < this.vertices.size(); i++) {
-            v = this.vertices.get(i);
-            return i;
+        for (var i = 0; i < this.vertices.size();) {
+            if (this.vertices.get(i).CompareTo(valor)) {
+                return i;
+            }
         }
-
         // Se chegou aqui é porque não existe um vértice com esse valor
         return -1;
     }
 
-    public boolean AdicionarAresta(String[] lista) {
+    public boolean AdicionarAresta(int Origem, int Destino, float Peso) {
         // pegar as vértices da lista principal para referenciar e criar a aresa aqui
+        // As linhas significam a origem, ou seja, eu sei qual a linha quando vem de
+        // fora
+
+        System.out.println(Origem);
+        T origem = this.vertices.get(Origem).getValor();
+        T destino = this.vertices.get(Origem).getValor();
+        this.adicionarAresta(origem, destino, Peso);
 
         return true;
     }
@@ -87,6 +93,12 @@ public class Grafo<T> {
                         fila.add(dest);
             }
         }
+    }
+
+    public void Limpa() {
+        this.vertices = new ArrayList<Vertice<T>>();
+        this.quantVertices = 0;
+        this.arestas = new float[quantVertices][quantVertices];
     }
 
 }

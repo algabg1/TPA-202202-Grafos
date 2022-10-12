@@ -7,6 +7,7 @@ package grafo;
 
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
+import static java.lang.Float.parseFloat;
 import java.nio.charset.Charset;
 import static java.nio.file.Files.readAllLines;
 import java.nio.file.Paths;
@@ -18,11 +19,10 @@ import java.util.List;
  */
 public class Principal {
 
-    private Grafo<String> grafo;
+    private Grafo<String> grafo = new Grafo<String>(0);
 
     public List<String> LeLinhas(int Tam) {
         try {
-            GeradorArquivosGrafo g = new GeradorArquivosGrafo();
             List<String> linhas;
             linhas = readAllLines(Paths.get("entrada.txt"), Charset.defaultCharset());
             return linhas;
@@ -43,15 +43,42 @@ public class Principal {
         }
     };
 
+    /*
+     * Monta Grafo - Recebe uma lista de String
+     * Deve receber o resultado da leitura realizada ao abrir o programa
+     * Ele limpa a árvore existente no programa (mera formalidade) e a preenche com
+     * a informação recebida
+     */
     private void montaGrafo(List<String> linhas) {
+        // this.grafo.Limpa();
         int qtCidades = parseInt(linhas.get(0));
         for (int i = 1; i < qtCidades; i++) {
-
+            /*
+             * Primeiro insiro os vértices pegando a linha que está, sendo a primeira coluna
+             * o index e a segunda seu "Nome"
+             */
             this.grafo.adicionarVertice(linhas.get(i).split(";")[1]);
         }
-
-        for (int i = qtCidades; i < linhas.size(); i++) {
-            this.grafo.AdicionarAresta(linhas.get(i).split(";"));
+        // Pego de onde parei, ou seja, tiro a linha 1 + quantidade de cidades que tem
+        // no arquivo.
+        for (int i = qtCidades + 1; i < linhas.size(); i++) {
+            /*
+             * Agora para pegar as arestas utilizo a seguinte lógica:
+             * Linha = Origem
+             * Coluna = Destino
+             * Valor no String[i][j] = Peso referente à distancia de Origem para Destino
+             * Quebrei a String "na mão" pro código ficar mais fácil de entender.
+             */
+            String[] colunas = linhas.get(i).split(";");
+            // Fazendo variável para indicar a origem
+            Integer origem = i - qtCidades;
+            for (int j = 0; j < colunas.length; j++) {
+                /*
+                 * Adicionando cada aresta conforme dito acima
+                 * Valor no String[i][j] = Peso referente à distancia de Origem para Destino
+                 */
+                this.grafo.AdicionarAresta(origem, j, parseFloat(colunas[j].replace(",", ".")));
+            }
         }
     }
 

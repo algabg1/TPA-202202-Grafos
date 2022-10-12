@@ -5,8 +5,6 @@
  */
 package grafo;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author 20191bsi0069
@@ -20,6 +18,13 @@ public class Vertice<T> {
 
     public T getValor() {
         return this.valor;
+    }
+
+    public Boolean CompareTo(T Comparado) {
+        if (this.valor == Comparado) {
+            return true;
+        }
+        return false;
     }
 
 }
