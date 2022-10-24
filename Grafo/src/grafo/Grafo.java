@@ -5,7 +5,11 @@
  */
 package grafo;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
+import static java.lang.Integer.parseInt;
+import java.lang.Object;
 
 /**
  *
@@ -51,11 +55,9 @@ public class Grafo<T> {
         // fora
         if (Peso == 0.0)
             return false;
-        System.out.println(this.vertices);
         T origem = this.vertices.get(Origem).getValor();
         T destino = this.vertices.get(Destino).getValor();
         this.adicionarAresta(origem, destino, Peso);
-        System.out.println("saiu");
         return true;
     }
 
@@ -79,22 +81,41 @@ public class Grafo<T> {
         this.arestas[indiceOrigem][indiceDestino] = peso;
     }
 
-    public void buscaEmLargura() {
+    public void BuscaEmLargura(int codCidade) {
+        // Verifico se a cidade passada pelo usuário existe
+
+        if (this.quantVertices <= codCidade) {
+            System.out.println("Código inválido");
+            return;
+        }
+        buscaEmLargura(codCidade);
+    }
+
+    private void buscaEmLargura(int origem) {
         boolean marcados[] = new boolean[this.quantVertices];
         int atual = 0;
         ArrayList<Integer> fila = new ArrayList<Integer>();
-        fila.add(atual);
+        ArrayList<T> visitados = new ArrayList<T>();
+        T item;
+        // Adicionando a cidade passada pelo usuário
+        fila.add(origem);
         while (fila.size() > 0) {
             atual = fila.get(0);
             fila.remove(0);
             marcados[atual] = true;
-            System.out.println(this.vertices.get(atual).getValor());
-            for (int dest = 0; dest < this.quantVertices; dest++) {
-                // Se o nó é adjacente
-                if (arestas[atual][dest] > 0)
-                    // Se ele ainda não foi visitado o coloco na fila
-                    if (!marcados[dest])
-                        fila.add(dest);
+            item = this.vertices.get(atual).getValor();
+            // Para não repetir as cidades, coloquei-as em uma lista e verifico se a cidade
+            // não está contida.
+            if (visitados.indexOf(item) == -1) {
+                System.out.println("Código:" + atual + " Cidade: " + item);
+                visitados.add(item);
+                for (int dest = 0; dest < this.quantVertices; dest++) {
+                    // Se o nó é adjacente
+                    if (arestas[atual][dest] > 0)
+                        // Se ele ainda não foi visitado o coloco na fila
+                        if (!marcados[dest])
+                            fila.add(dest);
+                }
             }
         }
     }
@@ -103,6 +124,27 @@ public class Grafo<T> {
         this.vertices = new ArrayList<Vertice<T>>();
         this.quantVertices = 0;
         this.arestas = new float[quantVertices][quantVertices];
+    }
+
+    public void ObtemVizinhos(int codCidade) {
+        if (this.quantVertices <= codCidade) {
+            System.out.println("Código inválido");
+            return;
+        }
+        obtemVizinhos(codCidade);
+    }
+
+    private void obtemVizinhos(int codCidade) {
+        float distancia = 0;
+        for (int dest = 0; dest < this.quantVertices; dest++) {
+            // Se o nó é adjacente
+            distancia = arestas[codCidade - 1][dest];
+            if (distancia > 0) {
+                System.out.println("Código: " + (dest + 1) + "; Cidade: " + this.vertices.get(dest).getValor()
+                        + "; Distância: " + distancia);
+            }
+
+        }
     }
 
 }

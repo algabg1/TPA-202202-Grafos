@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 import static java.nio.file.Files.readAllLines;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -84,10 +85,68 @@ public class Principal {
         }
     }
 
+    private void entradaUsuario(Grafo<String> grafo) {
+        boolean para = false;
+        clearConsole();
+        Scanner ler;
+        String palavra = "";
+        while (para == false) {
+            System.out.println("1)Obter cidades vizinhas.");
+            System.out.println("2)Obter todos os caminhos a partir de uma cidade.");
+            System.out.println("3)Sair");
+            ler = new Scanner(System.in);
+            palavra = ler.next();
+            switch (parseInt(palavra)) {
+
+                case 1:
+                    CidadesVizinhas(grafo);
+                    break;
+                case 2:
+                    ObterDestinos(grafo);
+                    break;
+                case 3:
+                    para = true;
+                    break;
+            }
+
+            clearConsole();
+        }
+
+    }
+
+    private void CidadesVizinhas(Grafo<String> grafo) {
+        System.out.println("Digite o código da cidade:");
+        Scanner ler = new Scanner(System.in);
+        String palavra = ler.next();
+        grafo.ObtemVizinhos(parseInt(palavra));
+    }
+
+    private void ObterDestinos(Grafo<String> grafo) {
+        System.out.println("Digite o código da cidade:");
+        Scanner ler = new Scanner(System.in);
+        String palavra = ler.next();
+        grafo.BuscaEmLargura(parseInt(palavra));
+    }
+
+    public void clearConsole() {
+        try {
+            final String os = System.getProperty("os.name");
+
+            if (os.contains("Windows")) {
+                Runtime.getRuntime().exec("cls");
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (IOException ex) {
+            // Handle any exceptions.
+        }
+    }
+
     public static void main(String[] args) {
         Principal principal = new Principal();
         List<String> arquivo = principal.LeArquivo(10);
         principal.montaGrafo(arquivo);
+        principal.entradaUsuario(principal.grafo);
     }
 
 }
