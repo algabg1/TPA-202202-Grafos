@@ -12,8 +12,10 @@ import static java.lang.Integer.parseInt;
 import java.lang.Object;
 
 /**
- *
- * @author 20191bsi0069
+ * @author Matheus Henrique Gonçalves Costa
+ *         Matrícula: 20191bsi0069
+ * @author Ana Gabriella Gomes
+ *         Matrícula: 20192BSI0290
  */
 
 public class Grafo<T> {
