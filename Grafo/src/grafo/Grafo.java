@@ -90,7 +90,7 @@ public class Grafo<T> {
             System.out.println("Código inválido");
             return;
         }
-        buscaEmLargura(codCidade);
+        buscaEmLargura(codCidade-1);
     }
 
     private void buscaEmLargura(int origem) {
@@ -109,7 +109,7 @@ public class Grafo<T> {
             // Para não repetir as cidades, coloquei-as em uma lista e verifico se a cidade
             // não está contida.
             if (visitados.indexOf(item) == -1) {
-                System.out.println("Código:" + atual + " Cidade: " + item);
+                System.out.println("Código:" + (atual+1) + " Cidade: " + item);
                 visitados.add(item);
                 for (int dest = 0; dest < this.quantVertices; dest++) {
                     // Se o nó é adjacente
