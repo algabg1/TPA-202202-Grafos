@@ -5,11 +5,7 @@
  */
 package grafo;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import static java.lang.Integer.parseInt;
-import java.lang.Object;
 
 /**
  * @author Matheus Henrique Gonçalves Costa
@@ -20,7 +16,7 @@ import java.lang.Object;
 
 public class Grafo<T> {
     private ArrayList<Vertice<T>> vertices;
-    private float arestas[][];
+    private float arestas[][]; //utilizando matriz de adjacencias
     int quantVertices;
 
     public Grafo(int quantVertices) {
@@ -52,7 +48,7 @@ public class Grafo<T> {
     }
 
     public boolean AdicionarAresta(int Origem, int Destino, float Peso) {
-        // pegar as vértices da lista principal para referenciar e criar a aresa aqui
+        // pegar as vértices da lista principal para referenciar e criar a aresta aqui
         // As linhas significam a origem, ou seja, eu sei qual a linha quando vem de
         // fora
         if (Peso == 0.0)

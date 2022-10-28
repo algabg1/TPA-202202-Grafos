@@ -119,16 +119,22 @@ public class Principal {
 
     private void CidadesVizinhas(Grafo<String> grafo) {
         System.out.println("Digite o código da cidade:");
-        Scanner ler = new Scanner(System.in);
-        String palavra = ler.next();
-        grafo.ObtemVizinhos(parseInt(palavra));
+        try (Scanner ler = new Scanner(System.in)) {
+            String palavra = ler.next();
+            grafo.ObtemVizinhos(parseInt(palavra));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     private void ObterDestinos(Grafo<String> grafo) {
         System.out.println("Digite o código da cidade:");
-        Scanner ler = new Scanner(System.in);
-        String palavra = ler.next();
-        grafo.BuscaEmLargura(parseInt(palavra));
+        try (Scanner ler = new Scanner(System.in)) {
+            String palavra = ler.next();
+            grafo.BuscaEmLargura(parseInt(palavra));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     public void clearConsole() {
