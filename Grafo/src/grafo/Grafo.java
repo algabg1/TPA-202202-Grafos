@@ -31,10 +31,6 @@ public class Grafo<T> {
         return novo;
     }
 
-    public Grafo<T> MontaArvore() {
-        return null;
-    }
-
     private int obterIndiceVertice(T valor) {
         Vertice<T> v;
         for (var i = 0; i < this.vertices.size(); i++) {
@@ -143,6 +139,13 @@ public class Grafo<T> {
             }
 
         }
+    }
+
+    //método etapa 2
+    public void caminhoMinimo (T Origem, T Destino){
+        //imprimir caminho mínimo
+
+        //imprimir distância total entre os dois vertices
     }
 
 }
