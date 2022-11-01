@@ -142,7 +142,7 @@ public class Grafo<T> {
     }
 
     //método etapa 2
-    public void caminhoMinimo (T Origem, T Destino){
+    public void caminhoMinimo (int Origem, int Destino){
         //imprimir caminho mínimo
 
         //imprimir distância total entre os dois vertices

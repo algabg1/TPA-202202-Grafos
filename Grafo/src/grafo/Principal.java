@@ -96,7 +96,8 @@ public class Principal {
         while (para == false) {
             System.out.println("1)Obter cidades vizinhas.");
             System.out.println("2)Obter todos os caminhos a partir de uma cidade.");
-            System.out.println("3)Sair");
+            System.out.println("3)Calcular caminho mínimo");
+            System.out.println("4)Sair");
             ler = new Scanner(System.in);
             palavra = ler.next();
             switch (parseInt(palavra)) {
@@ -108,6 +109,9 @@ public class Principal {
                     ObterDestinos(grafo);
                     break;
                 case 3:
+                    CalcCaminhoMínimo(grafo);
+                    break;
+                case 4:
                     para = true;
                     break;
             }
@@ -148,6 +152,19 @@ public class Principal {
             }
         } catch (IOException ex) {
             // Handle any exceptions.
+        }
+    }
+
+    public void CalcCaminhoMínimo(Grafo<String> grafo){
+        System.out.println("Digite o código da cidade de origem:");
+        try (Scanner ler = new Scanner(System.in)) {
+            String palavra1 = ler.next();
+            System.out.println("Digite o código da cidade de destino:");
+            String palavra2 = ler.next();
+            //verificar se as cidades passadas como parâmetro existem antes de chamar o método
+            grafo.caminhoMinimo(parseInt(palavra1), parseInt(palavra2));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 
