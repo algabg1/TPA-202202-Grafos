@@ -1,0 +1,32 @@
+Dijkstra
+
+Separa os nós em dois conjuntos:
+Rotulados e não Rotulados -> vou utilizar duas listas, populando com o índice da cidade na matriz de adjacência.
+Um nó ser rotulado significa que já sabemos a menor distância da origem até ele.
+
+Existem duas listas:
+chamadas de d(i) e p(i) no exemplo do professor, onde elas sgnificam:
+d(i) -  distância (ou peso) do nó
+p(i) -  origem
+sendo que len(d(i)) = len(p(i))
+ou seja, de p(i) até o index da lista tem o peso de d(i)
+
+
+Lógica do algoritmo:
+Pegar sempre o menor caminho de um nó não rotulado, descobrir o peso até ele.
+Após descoberto o peso, somar o peso até chegar nele + o peso de seus vizinhos, para assim atualizarmos quando for menor que a distancia 
+atual.
+
+Para isso funcionar possui as regras:
+sendo que len(d(i)) = len(p(i))
+d(i) deve ter o tamanho igual ao número de nós do grafo
+d(i) deve ser inicializada com o maior número da arquitetura usada, exceto o index referente à origem que deve ser incilizado com 0
+p(i) deve ser inicializada com 0, exceto pelo index referente à origem que deve ser inicializado com -1
+a origem deve ser o primeiro nó a ser rotulado
+
+
+Funções:
+EncontraPróximoMenor  --> Entre os nós não rotulados e origem diferente de 0, encontrar o menor próximo passo-> Recebe a lista
+de não rotulados e a lista d(i)
+
+

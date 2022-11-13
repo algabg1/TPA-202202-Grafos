@@ -55,9 +55,9 @@ public class Principal {
      */
     private void montaGrafo(List<String> linhas) {
         // this.grafo.Limpa();
+
         int qtCidades = parseInt(linhas.get(0));
         this.grafo = new Grafo<String>(qtCidades);
-
         for (int i = 1; i <= qtCidades; i++) {
             /*
              * Primeiro insiro os vértices pegando a linha que está, sendo a primeira coluna
@@ -88,20 +88,49 @@ public class Principal {
         }
     }
 
+    // private void entradaUsuario(Grafo<String> grafo) {
+    // boolean para = false;
+    // clearConsole();
+    // Scanner ler;
+    // String palavra = "";
+    // while (para == false) {
+    // System.out.println("1)Obter cidades vizinhas.");
+    // System.out.println("2)Obter todos os caminhos a partir de uma cidade.");
+    // System.out.println("3)Sair");
+    // ler = new Scanner(System.in);
+    // palavra = ler.next();
+    // switch (parseInt(palavra)) {
+
+    // case 1:
+    // CidadesVizinhas(grafo);
+    // break;
+    // case 2:
+    // ObterDestinos(grafo);
+    // break;
+    // case 3:
+    // para = true;
+    // break;
+    // }
+
+    // clearConsole();
+    // }
+
+    // }
     private void entradaUsuario(Grafo<String> grafo) {
         boolean para = false;
         clearConsole();
-        Scanner ler;
-        String palavra = "";
+
+        Integer palavra = 0;
         while (para == false) {
+
             System.out.println("1)Obter cidades vizinhas.");
             System.out.println("2)Obter todos os caminhos a partir de uma cidade.");
             System.out.println("3)Calcular caminho mínimo");
             System.out.println("4)Sair");
-            ler = new Scanner(System.in);
-            palavra = ler.next();
-            switch (parseInt(palavra)) {
+            Scanner ler = new Scanner(System.in);
+            palavra = ler.nextInt();
 
+            switch (palavra) {
                 case 1:
                     CidadesVizinhas(grafo);
                     break;
@@ -114,31 +143,38 @@ public class Principal {
                 case 4:
                     para = true;
                     break;
-            }
 
-            clearConsole();
+                case 5:
+                    break;
+            }
         }
 
     }
 
     private void CidadesVizinhas(Grafo<String> grafo) {
         System.out.println("Digite o código da cidade:");
-        try (Scanner ler = new Scanner(System.in)) {
-            String palavra = ler.next();
-            grafo.ObtemVizinhos(parseInt(palavra));
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
+        // try (Scanner ler = new Scanner(System.in)) {
+        // String palavra = ler.next();
+        // grafo.ObtemVizinhos(parseInt(palavra));
+        // } catch (NumberFormatException e) {
+        // e.printStackTrace();
+        // }
+        Scanner ler = new Scanner(System.in);
+        String palavra = ler.next();
+        grafo.ObtemVizinhos(parseInt(palavra));
     }
 
     private void ObterDestinos(Grafo<String> grafo) {
         System.out.println("Digite o código da cidade:");
-        try (Scanner ler = new Scanner(System.in)) {
-            String palavra = ler.next();
-            grafo.BuscaEmLargura(parseInt(palavra));
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
+        // try (Scanner ler = new Scanner(System.in)) {
+        // String palavra = ler.next();
+        // grafo.BuscaEmLargura(parseInt(palavra));
+        // } catch (NumberFormatException e) {
+        // e.printStackTrace();
+        // }
+        Scanner ler = new Scanner(System.in);
+        String palavra = ler.next();
+        grafo.BuscaEmLargura(parseInt(palavra));
     }
 
     public void clearConsole() {
@@ -155,17 +191,15 @@ public class Principal {
         }
     }
 
-    public void CalcCaminhoMínimo(Grafo<String> grafo){
+    public void CalcCaminhoMínimo(Grafo<String> grafo) {
         System.out.println("Digite o código da cidade de origem:");
-        try (Scanner ler = new Scanner(System.in)) {
-            String palavra1 = ler.next();
-            System.out.println("Digite o código da cidade de destino:");
-            String palavra2 = ler.next();
-            //verificar se as cidades passadas como parâmetro existem antes de chamar o método
-            grafo.caminhoMinimo(parseInt(palavra1), parseInt(palavra2));
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
+        Scanner ler = new Scanner(System.in);
+        String palavra1 = ler.next();
+        System.out.println("Digite o código da cidade de destino:");
+        String palavra2 = ler.next();
+
+        grafo.CaminhoMinimo(parseInt(palavra1), parseInt(palavra2));
+
     }
 
     public static void main(String[] args) {
