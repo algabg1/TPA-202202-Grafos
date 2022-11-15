@@ -39,7 +39,7 @@ public class Principal {
         try {
             GeradorArquivosGrafo g = new GeradorArquivosGrafo();
             List<String> linhas;
-            g.geraArquivo(Tam);
+            g.geraArquivo(10);
             linhas = readAllLines(Paths.get("entrada.txt"), Charset.defaultCharset());
             return linhas;
         } catch (IOException ex) {
@@ -88,34 +88,6 @@ public class Principal {
         }
     }
 
-    // private void entradaUsuario(Grafo<String> grafo) {
-    // boolean para = false;
-    // clearConsole();
-    // Scanner ler;
-    // String palavra = "";
-    // while (para == false) {
-    // System.out.println("1)Obter cidades vizinhas.");
-    // System.out.println("2)Obter todos os caminhos a partir de uma cidade.");
-    // System.out.println("3)Sair");
-    // ler = new Scanner(System.in);
-    // palavra = ler.next();
-    // switch (parseInt(palavra)) {
-
-    // case 1:
-    // CidadesVizinhas(grafo);
-    // break;
-    // case 2:
-    // ObterDestinos(grafo);
-    // break;
-    // case 3:
-    // para = true;
-    // break;
-    // }
-
-    // clearConsole();
-    // }
-
-    // }
     private void entradaUsuario(Grafo<String> grafo) {
         boolean para = false;
         clearConsole();
@@ -126,7 +98,8 @@ public class Principal {
             System.out.println("1)Obter cidades vizinhas.");
             System.out.println("2)Obter todos os caminhos a partir de uma cidade.");
             System.out.println("3)Calcular caminho mínimo");
-            System.out.println("4)Sair");
+            System.out.println("4)Calcular Árvore geradora mínima");
+            System.out.println("5)Sair");
             Scanner ler = new Scanner(System.in);
             palavra = ler.nextInt();
 
@@ -141,14 +114,19 @@ public class Principal {
                     CalcCaminhoMínimo(grafo);
                     break;
                 case 4:
-                    para = true;
+                    grafo = CalcAGM(grafo);
                     break;
 
                 case 5:
+                    para = true;
                     break;
             }
         }
 
+    }
+
+    private Grafo<String> CalcAGM(Grafo<String> grafo) {
+        return grafo.ArvoreMinima();
     }
 
     private void CidadesVizinhas(Grafo<String> grafo) {

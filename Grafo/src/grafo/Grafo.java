@@ -120,7 +120,7 @@ public class Grafo<T> {
         this.arestas = new float[quantVertices][quantVertices];
     }
 
-    public void ObtemVizinhos(int codCidade) {
+    public void ObtemVizinhos(Integer codCidade) {
         if (this.quantVertices <= codCidade) {
             System.out.println("Código inválido");
             return;
@@ -129,7 +129,7 @@ public class Grafo<T> {
     }
 
     // Função para printar lista de vizinhos de um código qualquer
-    private void obtemVizinhos(int codCidade) {
+    private void obtemVizinhos(Integer codCidade) {
         float distancia = 0;
         for (int dest = 0; dest < this.quantVertices; dest++) {
             // Se o nó é adjacente
@@ -137,6 +137,23 @@ public class Grafo<T> {
             if (distancia > 0) {
                 System.out.println("Código: " + (dest + 1) + "; Cidade: " +
                         this.vertices.get(dest).getValor()
+                        + "; Distância: " + distancia);
+            }
+
+        }
+    }
+
+    // Sobrescrevi essa função para poder fazer a chamada passando o grafo criado na
+    // AGM
+
+    private void obtemVizinhos(Integer codCidade, Grafo<T> grafo) {
+        float distancia = 0;
+        for (int dest = 0; dest < grafo.quantVertices; dest++) {
+            // Se o nó é adjacente
+            distancia = grafo.arestas[codCidade - 1][dest];
+            if (distancia > 0) {
+                System.out.println("Código: " + (dest + 1) + "; Cidade: " +
+                        grafo.vertices.get(dest).getValor()
                         + "; Distância: " + distancia);
             }
 
@@ -363,5 +380,167 @@ public class Grafo<T> {
         }
 
         return Lista;
+    }
+
+    public Grafo<T> ArvoreMinima() {
+        // Algoritmo utilizado foi o de >>>PRIM<<<
+        Grafo<T> novoGrafo = arvoreMinima();
+        this.arestas = novoGrafo.arestas;
+
+        return novoGrafo;
+    }
+
+    private Grafo<T> arvoreMinima() {
+
+        // Instanciando novo grafo
+        Grafo<T> novoGrafo = new Grafo<>(this.quantVertices);
+
+        // Os vertices não mudam na arvore minima (utilizando matriz de adjacências como
+        // método)
+        novoGrafo.vertices = this.vertices;
+
+        // Listas indicando conexão ao novo grafo
+        ArrayList<Integer> conectados = new ArrayList<Integer>();
+        ArrayList<Integer> naoConectados = new ArrayList<Integer>();
+
+        // Todos começam desconectados
+        naoConectados = populaArray(naoConectados);
+
+        // Começo pelo nó de índice 0 (qualquer valor serviria)
+        conectados.add(0);
+        naoConectados.remove(0);
+
+        // Variável de peso total do grafo
+        float pesoTotal = (float) 0;
+
+        // Enquanto houver um não conectado eu continuo o loop
+        // OBS. Alguns trechos de códigos só são válidos pois sempre receberemos um
+        // grafo conexo
+        // Por exemplo esse while, caso exista um nó desconexo, causaria um looping
+        // infinito (rs)
+        while (naoConectados.size() > 0) {
+
+            // Variáveis que carregam índices auxiliares
+            Integer idxOrigem = null;
+            Integer idxDestino = null;
+            Integer idxAux = null;
+
+            // Lista auxiliar onde guardo os vizinhos de um nó qualquer
+            ArrayList<Integer> lstVizinhos = new ArrayList<Integer>();
+
+            // Faço um for percorrendos os conectados visando encontrar o próximo nó a
+            // conectar ao grafo
+            for (int i = 0; i < conectados.size(); i++) {
+                // Se eu ainda estiver na primeira iteração, qualquer coisa serve
+                if (idxDestino == null) {
+                    // Pego a lista de vizinho do meu nó conectado selecionado
+                    lstVizinhos = obtemLstVizinhos(conectados.get(i));
+
+                    // Meu nó já conectado vai ser minha origem
+                    idxOrigem = conectados.get(i);
+
+                    // Meu destino vai ser o menor vizinho ainda não conectado (tratamento interno
+                    // na função)
+                    idxDestino = retornaMenorVizinho(lstVizinhos, idxOrigem, conectados);
+
+                }
+                // Caso não seja a primeira, devo validar alguns aspectos antes de selecionar o
+                // nó como novo conectado
+                else {
+                    // Pego a lista de vizinho do meu nó conectado selecionado
+                    lstVizinhos = obtemLstVizinhos(conectados.get(i));
+
+                    // Coloco o menor vizinho do meu conectado atual em uma variável
+                    idxAux = retornaMenorVizinho(lstVizinhos, conectados.get(i), conectados);
+
+                    // Caso não seja nulo (isso pode ocorrer mais no final, quando seleciono um nó
+                    // conectadeo que não se conecta a nenhum nó
+                    // não conectado)
+                    if (idxAux != null) {
+                        // Verifico se minha origem e destino atual possui um peso maior que minhas
+                        // candidatas a nova
+                        if (this.arestas[idxOrigem][idxDestino] > this.arestas[i][idxAux]) {
+                            // Se sim, minha origem passa a ser o conectado atual
+                            idxOrigem = conectados.get(i);
+                            // E o destino passa a ser o vizinho encontrado
+                            idxDestino = idxAux;
+                        }
+                    }
+                }
+            }
+            // Ao fim da iterção, insiro nas minhas arestas o peso da aresta atual entre
+            // minha origem e meu destino
+            novoGrafo.arestas[idxOrigem][idxDestino] = this.arestas[idxOrigem][idxDestino];
+
+            // Matriz de adjacências é espelhada no trabalho atual
+            novoGrafo.arestas[idxDestino][idxOrigem] = this.arestas[idxDestino][idxOrigem];
+
+            // A origem já estava conectada, então somente o destino precisa ser adicionada
+            // aos conectados
+            conectados.add(idxDestino);
+
+            // e removido dos não conectados
+            naoConectados.remove(idxDestino);
+
+            // Somo o peso da aresta atual à minha soma total
+            pesoTotal += novoGrafo.arestas[idxDestino][idxOrigem];
+
+            // Não precisava criar lista de conectado e não conectado, visto que possuímos o
+            // "contains", mas para facilitar o entendimento
+            // dos códigos, preferi criar as duas.
+        }
+        // Prints
+        printaMatAdj(novoGrafo);
+        printaAGM(novoGrafo);
+        System.out.printf("Peso total: %.2f", pesoTotal);
+        System.out.println("\n\n\n\n");
+        return novoGrafo;
+    }
+
+    // Printar Arvore AGM
+    private void printaAGM(Grafo<T> novoGrafo) {
+        for (int i = 0; i < novoGrafo.vertices.size(); i++) {
+            System.out.println("A partir da cidade " + (i + 1) + "- " + novoGrafo.vertices.get(i).getValor());
+            obtemVizinhos(i + 1, novoGrafo);
+            System.out.println("---------------------------------------------------");
+        }
+    }
+
+    // Printar matriz de adjacências nova
+    private void printaMatAdj(Grafo<T> novoGrafo) {
+        for (int l = 0; l < novoGrafo.arestas.length; l++) {
+            for (int c = 0; c < novoGrafo.arestas[0].length; c++) {
+                System.out.print(novoGrafo.arestas[l][c] + " "); // imprime caracter a caracter
+            }
+            System.out.println(" "); // muda de linha
+        }
+    }
+
+    private Integer retornaMenorVizinho(ArrayList<Integer> lst, Integer idxAtual, ArrayList<Integer> conectados) {
+        // Iniciando o index de retorno com null (o que explica a chamada)
+        Integer idxVizinho = null;
+
+        // Percorro a lista à procura do vizinho com menor peso de um nó qualquer
+        for (int i = 0; i < lst.size(); i++) {
+            // Desde que este não tenha sido conectado ao grafo ainda
+            if (conectados.contains(lst.get(i)) == false) {
+                // Se a aresta entre a origem (parâmetro) e o destino (iteração) for maior que 0
+                if (this.arestas[idxAtual][lst.get(i)] > 0) {
+                    // Caso seja a primeira iteração, qualquer vizinho serve pra inicializar
+                    if (idxVizinho == null) {
+                        idxVizinho = lst.get(i);
+                    } else {
+                        // Se não, verifico se o peso da iteração anterior é maior que da atual
+                        if (this.arestas[idxAtual][idxVizinho] > this.arestas[idxAtual][lst.get(i)]) {
+                            // Se verdadeiro, meu idxVizinho muda de valor para o index guardado na lst
+                            // enviada.
+                            idxVizinho = lst.get(i);
+                        }
+                    }
+                }
+            }
+        }
+        // Retorno do index, este que pode ser nulo conforme explicado na chamada
+        return idxVizinho;
     }
 }
