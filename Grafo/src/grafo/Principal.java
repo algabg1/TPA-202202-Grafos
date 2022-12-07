@@ -99,7 +99,8 @@ public class Principal {
             System.out.println("2)Obter todos os caminhos a partir de uma cidade.");
             System.out.println("3)Calcular caminho mínimo");
             System.out.println("4)Calcular Árvore geradora mínima");
-            System.out.println("5)Sair");
+            System.out.println("5)Calcular fluxo máximo");
+            System.out.println("6)Sair");
             Scanner ler = new Scanner(System.in);
             palavra = ler.nextInt();
 
@@ -116,8 +117,10 @@ public class Principal {
                 case 4:
                     grafo = CalcAGM(grafo);
                     break;
-
                 case 5:
+                    CalcFluxoMaximo(grafo);
+                    break;
+                case 6:
                     para = true;
                     break;
             }
@@ -125,6 +128,12 @@ public class Principal {
 
     }
 
+    //metodo etapa 4
+    private void CalcFluxoMaximo(Grafo<String> grafo){
+
+    }
+
+    //metodo etapa 3
     private Grafo<String> CalcAGM(Grafo<String> grafo) {
         return grafo.ArvoreMinima();
     }

@@ -382,6 +382,7 @@ public class Grafo<T> {
         return Lista;
     }
 
+    //metodo etapa 3
     public Grafo<T> ArvoreMinima() {
         // Algoritmo utilizado foi o de >>>PRIM<<<
         Grafo<T> novoGrafo = arvoreMinima();
